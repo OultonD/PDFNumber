@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{pgfplotstable}
+\usepackage[letterpaper, portrait, margin=0in]{geometry}
+
+\newif\ifprintrawlinenumbers
+\pgfkeys{print raw line numbers/.is if=printrawlinenumbers,
+  print raw line numbers=true}
+\newcommand{\addlinenumbers}[5]{
+  \pgfmathtruncatemacro{\leftnumber}{(#1-1)}
+  \pgfplotstableread{\pdfname-\leftnumber.txt}\leftlines
+  \begin{tikzpicture}[font=\tiny,anchor=east]
+  \node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[height=28cm,page=#1]{\pdfname.pdf}};
+    \begin{scope}[x={(image.south east)},y={(image.north west)}]
+      \pgfplotstableforeachcolumnelement{[index] 0}\of\leftlines\as\position{
+        \ifprintrawlinenumbers
+          \node [font=\tiny,red] at (0.04,1-\position/1000)         {\pgfplotstablerow};
+        \fi
+        \pgfmathtruncatemacro{\checkexcluded}{
+          (\pgfplotstablerow>=#2 && \pgfplotstablerow<=#3) ? 1 : 0)
+        }
+        \ifnum\checkexcluded=1
+          \pgfmathtruncatemacro\linenumber{\pgfplotstablerow-#2+1}
+          \node [font=\tiny,align=right,anchor=east] at (0.1,1-\position/1000) {\linenumber};
+        \fi
+      }
+      \pgfplotstablegetrowsof{\leftlines}
+      \pgfmathtruncatemacro\rightstart{min((\pgfplotsretval-#2),(#3-#2+1))}
+       \end{scope}
+  \end{tikzpicture}
+}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\def\pdfname{Script}
+\pgfkeys{print raw line numbers=false}
+
+\foreach \page in {1,...,3}{\addlinenumbers{\page}{1}{1000}{0}{100}}
+
+
+\end{document}
