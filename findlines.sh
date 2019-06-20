@@ -1,4 +1,8 @@
+# based on the work in https://tex.stackexchange.com/a/18776
+
+#remove any previously generated text files
 rm -rf $1-*.txt
+
 convert $1.pdf png:$1
 for f in $1-*; do 
 convert $f -flatten -strip -resize 1X1000!\

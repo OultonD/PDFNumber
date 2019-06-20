@@ -1,3 +1,5 @@
+% Based on the work in https://tex.stackexchange.com/a/18776
+
 \documentclass{article}
 \usepackage{tikz}
 \usepackage{pgfplotstable}
@@ -37,7 +39,7 @@
 \def\pdfname{Script}
 \pgfkeys{print raw line numbers=false}
 
-\foreach \page in {1,...,3}{\addlinenumbers{\page}{1}{1000}{0}{100}}
+\foreach \page in {1,...,3}{\addlinenumbers{\page}{0}{1000}{0}{100}}
 
 
 \end{document}
