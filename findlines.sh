@@ -3,8 +3,9 @@
 #remove any previously generated text files
 rm -rf $1-*.txt
 
-convert $1.pdf png:$1
+convert $1.pdf -rotate $2 png:$1
 for f in $1-*; do 
+#rotate "deg" negative numbers = ccw
 convert $f -flatten -strip -resize 1X1000!\
  -black-threshold 99% -white-threshold 10% -negate -morphology Erode Diamond\
  -define morphology:compose=Darken\
