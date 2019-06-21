@@ -4,6 +4,13 @@
 \usepackage{tikz}
 \usepackage{pgfplotstable}
 \usepackage[letterpaper, portrait, margin=0in]{geometry}
+\usepackage{intcalc}
+
+\newcount\numpages
+\newcount\numberby
+
+\numpages=62
+\numberby=2 %count by N
 
 \newif\ifprintrawlinenumbers
 \pgfkeys{print raw line numbers/.is if=printrawlinenumbers,
@@ -23,7 +30,9 @@
         }
         \ifnum\checkexcluded=1
           \pgfmathtruncatemacro\linenumber{\pgfplotstablerow-#2+1}
-          \node [font=\tiny,align=right,anchor=east] at (0.1,1-\position/1000) {\linenumber};
+          \ifnum\intcalcMod{\linenumber}{\numberby}=0
+          \node [font=\small,align=right,anchor=east] at (0.14,1-\position/1000) {\linenumber};
+          \fi
         \fi
       }
       \pgfplotstablegetrowsof{\leftlines}
@@ -39,7 +48,7 @@
 \def\pdfname{Script}
 \pgfkeys{print raw line numbers=false}
 
-\foreach \page in {1,...,3}{\addlinenumbers{\page}{0}{1000}{0}{100}}
+\foreach \page in {1,...,\numpages}{\addlinenumbers{\page}{2}{1000}{0}{100}}
 
 
 \end{document}
