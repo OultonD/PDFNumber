@@ -14,4 +14,4 @@ Edit the following in `NumberPDF.tex` to customize your numbering:
 `\offset=10` Offset of numbers from left margin. Useful numbers are in the range of 0-20ish.
 
 ## Requirements
-Requires ImageMagick commandline tools, and LaTeX
+Requires [ImageMagick](https://imagemagick.org/script/download.php) commandline tools, and [LaTeX](https://www.latex-project.org/get/)
